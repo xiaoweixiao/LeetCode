@@ -35,3 +35,44 @@ public:
         return s.substr(start,longest);
     }
 };
+
+//我们观察到回文中心的两侧互为镜像。因此，回文可以从它的中心展开，并且只有 2n - 1个这样的中心。
+//你可能会问，为什么会是 2n - 1 个，而不是 n个中心？原因在于所含字母数为偶数的回文的中心可以处于两字母之间
+//（例如 ：“abba” 的中心在两个b之间），时间复杂度也只有O(n*n)
+class Solution {
+public:
+	string longestPalindrome(string s) {
+		if (s == "" || s.size()== 1)
+		{
+			return s;
+		}
+		int size = s.size();
+		int start = 0;
+		int max = 1;
+		int len1 = 0, len2 = 0;
+		int len = 0;
+		for (int i = 0; i < size; i++)
+		{
+			len1 = retRomeLen(s, i, i);
+			len2 = retRomeLen(s, i, i + 1);//如果上面是长度为偶数时候以i为中心，那下面就是奇数个长度以i为中心。
+			len = len1>len2 ? len1 : len2;
+			if (len >= max)
+			{	
+				max = len;
+				start = i - (len-1) / 2;
+			}
+		}
+		
+		return s.substr(start, max);
+	}
+	// 中心扩散的字符串的长度
+	int retRomeLen(string s, int left, int right)
+	{
+		while (left >= 0 && right < s.size() && s[left] == s[right] )
+		{	
+			left--;
+			right++;
+		}
+		return right - left -1;
+	}
+};
