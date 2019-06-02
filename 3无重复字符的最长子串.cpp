@@ -38,19 +38,3 @@ public:
         return ret;
     }
 };
-
-//上述代码优化写法
-class Solution {
-public:
-	int lengthOfLongestSubstring(string s) {
-		int len = s.size(), ret = 0;
-		vector<int> num(256,-1);
-		for (int i = -1, j = 0; j<len; j++)//i~j的区间为无重复字符串区间
-		{
-			i = max(i, num[s[j]]);
-			num[s[j]] = j;
-			ret = max(ret, j - i);
-		}
-		return ret;
-	}
-};
