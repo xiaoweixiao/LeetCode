@@ -15,7 +15,7 @@ public:
 			length = que.size();
 			if (front->left)que.push(front->left);
 			if (front->right)que.push(front->right);
-			if (que.size() - length == 0)break;//左右孩子均没有了
+			if (que.size() - length == 0)break;
 			if (back == front)
 			{
 				level++;
