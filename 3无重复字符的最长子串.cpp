@@ -22,4 +22,35 @@ public:
 	}
 };
 
-//
+//改进版本的滑动窗口，O(n)
+class Solution {
+public:
+    int lengthOfLongestSubstring(string s) {
+        int len=s.size(),ret=0,arr[128]={0};
+        for(int i=0,j=0;j<len;j++)//i~j的区间为无重复字符串区间
+        {
+            if(arr[s[j]]==0||arr[s[j]]<i)//当前字符未出现||区间i被更新之后，又来了新字符
+                ret = max(ret, j - i + 1);
+            else
+                i=arr[s[j]];//arr[s[j]]统计i以前的字符，也就是出现过的重复字符个数
+            arr[s[j]] = j + 1;
+        }
+        return ret;
+    }
+};
+
+//上述代码优化写法
+class Solution {
+public:
+	int lengthOfLongestSubstring(string s) {
+		int len = s.size(), ret = 0;
+		vector<int> num(256,-1);
+		for (int i = -1, j = 0; j<len; j++)//i~j的区间为无重复字符串区间
+		{
+			i = max(i, num[s[j]]);
+			num[s[j]] = j;
+			ret = max(ret, j - i);
+		}
+		return ret;
+	}
+};
